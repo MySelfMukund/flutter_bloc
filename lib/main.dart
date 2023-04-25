@@ -1,9 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:my_flutter_bloc/blocs/counter/counter_bloc.dart';
-
-import 'other_Page.dart';
+import 'package:my_flutter_bloc/blocs/theme_bloc/theme_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,11 +14,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CounterBloc(),
-      child: MaterialApp(
-        title: 'My Counter Bloc',
-        theme: ThemeData(primarySwatch: Colors.blue),
-        home: const MyHomePage(),
+      create: (context) => ThemeBloc(),
+      child: BlocBuilder<ThemeBloc, ThemeState>(
+        builder: (context, state) {
+          return MaterialApp(
+            title: 'Event Payload',
+            debugShowCheckedModeBanner: false,
+            theme: state.appTheme == AppTheme.light
+                ? ThemeData.light()
+                : ThemeData.dark(),
+            home: const MyHomePage(),
+          );
+        },
       ),
     );
   }
@@ -32,52 +38,25 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Counter Bloc'),
+        title: const Text('Theme'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: BlocListener<CounterBloc, CounterState>(
-          listener: (context, state) {
-            if (state.counter == 3) {
-              showDialog(
-                  context: context,
-                  builder: ((context) => AlertDialog(
-                        content: Text('Counter is ${state.counter}'),
-                      )));
-            } else if (state.counter == -1) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: ((context) => const OtherPage())));
-            }
-          },
+          padding: const EdgeInsets.all(8.0),
           child: Center(
-            child: Text(
-              '${context.watch<CounterBloc>().state.counter}',
-              style: const TextStyle(fontSize: 50.0),
+            child: ElevatedButton(
+              child: Text(
+                'Change Theme',
+                style: TextStyle(fontSize: 26),
+              ),
+              onPressed: () {
+                final int randInt = Random().nextInt(10);
+                print('randInt ${randInt.toString()}');
+                context
+                    .read<ThemeBloc>()
+                    .add(ChangeThemeEvent(randomInt: randInt));
+              },
             ),
-          ),
-        ),
-      ),
-      floatingActionButton: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        // mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          FloatingActionButton(
-            onPressed: () {
-              BlocProvider.of<CounterBloc>(context)
-                  .add(IncrementCounterEvent());
-            },
-            heroTag: 'increment',
-            child: const Icon(Icons.add),
-          ),
-          FloatingActionButton(
-            onPressed: () {
-              context.read<CounterBloc>().add(DecrementCounterEvent());
-            },
-            heroTag: 'decrement',
-            child: const Icon(Icons.remove),
-          )
-        ],
-      ),
+          )),
     );
   }
 }

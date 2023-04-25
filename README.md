@@ -1,16 +1,5 @@
-# my_flutter_bloc
+# Passing additional data to Bloc's event
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+In this branch (example) we are passing a data to event to change the theme of the app.
+On button press we are calculating the random number & as per that randdom number, we are trying to change the theme.
+If the random number is event then the theme should be lilght & else dart.
