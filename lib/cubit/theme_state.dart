@@ -1,18 +1,15 @@
-part of 'theme_bloc.dart';
+part of 'theme_cubit.dart';
 
-enum AppTheme {
-  dart,
-  light,
-}
+enum AppTheme { dark, light }
 
 class ThemeState extends Equatable {
   final AppTheme appTheme;
-  ThemeState({
-    this.appTheme = AppTheme.light,
-  });
+  const ThemeState(
+    this.appTheme,
+  );
 
   factory ThemeState.initial() {
-    return ThemeState();
+    return ThemeState(AppTheme.light);
   }
 
   @override
@@ -22,7 +19,7 @@ class ThemeState extends Equatable {
     AppTheme? appTheme,
   }) {
     return ThemeState(
-      appTheme: appTheme ?? this.appTheme,
+      appTheme ?? this.appTheme,
     );
   }
 
