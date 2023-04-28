@@ -4,25 +4,25 @@ enum AppTheme { dark, light }
 
 class ThemeState extends Equatable {
   final AppTheme appTheme;
-  const ThemeState(
-    this.appTheme,
-  );
+  const ThemeState({
+    required this.appTheme,
+  });
 
   factory ThemeState.initial() {
-    return ThemeState(AppTheme.light);
+    return ThemeState(appTheme: AppTheme.light);
   }
 
   @override
   List<Object> get props => [appTheme];
 
+  @override
+  String toString() => 'ThemeState(appTheme: $appTheme)';
+
   ThemeState copyWith({
     AppTheme? appTheme,
   }) {
     return ThemeState(
-      appTheme ?? this.appTheme,
+      appTheme: appTheme ?? this.appTheme,
     );
   }
-
-  @override
-  String toString() => 'ThemeState(appTheme: $appTheme)';
 }

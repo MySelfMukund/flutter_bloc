@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, state) {
           return MaterialApp(
-            title: 'Event Payload',
+            title: 'Cubit Payload',
             debugShowCheckedModeBanner: false,
             theme: state.appTheme == AppTheme.light
                 ? ThemeData.light()
@@ -52,6 +52,7 @@ class MyHomePage extends StatelessWidget {
                 final int randInt = Random().nextInt(10);
                 print('randInt ${randInt.toString()}');
                 //code for theme change
+                context.read<ThemeCubit>().changeTheme(randInt);
               },
             ),
           )),
